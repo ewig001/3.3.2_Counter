@@ -8,40 +8,32 @@ public:
 	Counter(int x) { counter = x; }
 	Counter() { counter = 1; }
 
-	void print_result(std::string str) {
-		if(str == "=") {
-			std::cout << counter << std::endl;
-		}
-	}
+	void print_result() {std::cout << counter << std::endl;}
 
-	void operations_counter(Counter counter) {
-		bool b = true;
+	void operations_counter(Counter counter, bool *b) {
 		std::string str;
-		while(b == true) {
+		while(*b == true) {
 			std::cout << "Введите команду ('+', '-', '=' или 'x'): ";
 			std::cin >> str;
 
 			if(str == "+") {
 				counter.increase_counter(str);
-				b = true;
-
+				*b = true;
 			}
 			else if(str == "-") {
 				counter.decrease_counter(str);
-				b = true;
-
+				*b = true;
 			}
 			else if(str == "=") {
-				counter.print_result(str);
+				counter.print_result();
 			}
 			else if(str == "x" || str == "х") {
 				std::cout << "До свидания!" << std::endl;
-				b = false;
+				*b = false;
 			}
 			else {
 				std::cout << "Введено неверное значение!" << std::endl;
-				str = "=";
-				continue;
+				*b = false;
 			}
 		}
 	}
@@ -50,36 +42,26 @@ private:
 	int counter;
 
 	int increase_counter(std::string str) {
-		if(str == "+") {
-			++counter;
-		}
+		++counter;
 		return counter;
 	}
 
 	int decrease_counter(std::string str) {
-		if(str == "-") {
-			--counter;
-		}
+		--counter;
 		return counter;
-	}
-
-	bool close_counter(std::string str, bool b) {
-		if(str == "x" || str == "х") {
-			std::cout << counter << std::endl;
-			b = false;
-		}
-		return b;
 	}
 };
 
 int main(int arrgc, char** argv) {
-//	SetConsoleCP(1251); // для проверки решения в ОС Windows
-//	SetConsoleOutputCP(1251); //для проверки решения в ОС Windows
+	//SetConsoleCP(1251); // для проверки решения в ОС Windows
+	//SetConsoleOutputCP(1251); // для проверки решения в ОС Windows
 	setlocale(LC_ALL, "RUSSIAN");
 
 	int x = 0;
+	bool b = true;
 	std::string str;
-	while (true) {
+
+	while (b == true) {
 		std::cout << "Вы хотите указать начальное значение счётчика? Введите да или нет: ";
 		std::cin >> str;
 
@@ -89,14 +71,14 @@ int main(int arrgc, char** argv) {
 			std::cin >> x;
 			Counter counter(x);
 
-			counter.operations_counter(counter);
+			counter.operations_counter(counter, &b);
 		}
 		else if (str == "нет") {
 			Counter counter;
 			std::cout << "Начальное значение счётчика равно: ";
-			counter.print_result("=");
+			counter.print_result();
 
-			counter.operations_counter(counter);
+			counter.operations_counter(counter, &b);
 		}
 		else {
 			std::cout << "Введено неверное значение!" << std::endl;
