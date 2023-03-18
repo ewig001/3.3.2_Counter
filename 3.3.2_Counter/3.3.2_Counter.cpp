@@ -41,7 +41,7 @@ public:
 			else {
 				std::cout << "Введено неверное значение!" << std::endl;
 				str = "=";
-				b = false;
+				continue;
 			}
 		}
 	}
