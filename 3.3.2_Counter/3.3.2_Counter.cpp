@@ -10,30 +10,31 @@ public:
 
 	void print_result() {std::cout << counter << std::endl;}
 
-	void operations_counter(Counter counter, bool *b) {
+	void operations_counter(Counter counter) {
+		bool b = true;
 		std::string str;
-		while(*b == true) {
+		while(b == true) {
 			std::cout << "Введите команду ('+', '-', '=' или 'x'): ";
 			std::cin >> str;
 
 			if(str == "+") {
 				counter.increase_counter(str);
-				*b = true;
+				b = true;
 			}
 			else if(str == "-") {
 				counter.decrease_counter(str);
-				*b = true;
+				b = true;
 			}
 			else if(str == "=") {
 				counter.print_result();
 			}
 			else if(str == "x" || str == "х") {
 				std::cout << "До свидания!" << std::endl;
-				*b = false;
+				b = false;
 			}
 			else {
 				std::cout << "Введено неверное значение!" << std::endl;
-				*b = false;
+				b = false;
 			}
 		}
 	}
@@ -58,31 +59,27 @@ int main(int arrgc, char** argv) {
 	setlocale(LC_ALL, "RUSSIAN");
 
 	int x = 0;
-	bool b = true;
 	std::string str;
 
-	while (b == true) {
-		std::cout << "Вы хотите указать начальное значение счётчика? Введите да или нет: ";
-		std::cin >> str;
+	std::cout << "Вы хотите указать начальное значение счётчика? Введите да или нет: ";
+	std::cin >> str;
 
-		if (str == "да") {
+	if (str == "да") {
+		std::cout << "Введите начальное значение счётчика: ";
+		std::cin >> x;
+		Counter counter(x);
 
-			std::cout << "Введите начальное значение счётчика: ";
-			std::cin >> x;
-			Counter counter(x);
-
-			counter.operations_counter(counter, &b);
+		counter.operations_counter(counter);
 		}
 		else if (str == "нет") {
 			Counter counter;
 			std::cout << "Начальное значение счётчика равно: ";
 			counter.print_result();
 
-			counter.operations_counter(counter, &b);
+			counter.operations_counter(counter);
 		}
 		else {
 			std::cout << "Введено неверное значение!" << std::endl;
 		}
-	}
 	return 0;
 }
