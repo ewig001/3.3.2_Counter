@@ -5,44 +5,39 @@
 class Counter {
 
 public:
-	Counter(int x) { counter = x; }
-	Counter() { counter = 1; }
+	Counter(int x) {counter = x;}
+	Counter() {counter = 1;}
 
 	void print_result() {std::cout << counter << std::endl;}
 
-	void operations_counter(Counter counter) {
-		bool b = true;
-		std::string str;
-		while(b == true) {
-			std::cout << "Введите команду ('+', '-', '=' или 'x'): ";
-			std::cin >> str;
+	bool operations_counter(std::string str) {
 
-			if(str == "+") {
-				counter.increase_counter(str);
-				b = true;
-			}
-			else if(str == "-") {
-				counter.decrease_counter(str);
-				b = true;
-			}
-			else if(str == "=") {
-				counter.print_result();
-			}
-			else if(str == "x" || str == "х") {
-				std::cout << "До свидания!" << std::endl;
-				b = false;
-			}
-			else {
-				std::cout << "Введено неверное значение!" << std::endl;
-				b = false;
-			}
+		if(str == "+") {
+			increase_counter();
+			return true;
+		}
+		else if(str == "-") {
+			decrease_counter(str);
+			return true;
+		}
+		else if(str == "=") {
+			print_result();
+			return true;
+		}
+		else if(str == "x" || str == "х") {
+			std::cout << "До свидания!" << std::endl;
+			return false;
+		}
+		else {
+			std::cout << "Введено неверное значение!" << std::endl;
+			return false;
 		}
 	}
 
 private:
 	int counter;
 
-	int increase_counter(std::string str) {
+	int increase_counter() {
 		++counter;
 		return counter;
 	}
@@ -60,26 +55,39 @@ int main(int arrgc, char** argv) {
 
 	int x = 0;
 	std::string str;
+	bool b = true;
 
 	std::cout << "Вы хотите указать начальное значение счётчика? Введите да или нет: ";
 	std::cin >> str;
 
-	if (str == "да") {
-		std::cout << "Введите начальное значение счётчика: ";
-		std::cin >> x;
-		Counter counter(x);
+		if (str == "да") {
+			Counter counter(x);
 
-		counter.operations_counter(counter);
+		    std::cout << "Введите начальное значение счётчика: ";
+		    std::cin >> x;
+
+			while (b == true) {
+				std::cout << "Введите команду ('+', '-', '=' или 'x'): ";
+				std::cin >> str;
+				b = counter.operations_counter(str);
+			}
 		}
 		else if (str == "нет") {
-			Counter counter;
-			std::cout << "Начальное значение счётчика равно: ";
+		    Counter counter;
+
+		    std::cout << "Начальное значение счётчика равно: ";
 			counter.print_result();
 
-			counter.operations_counter(counter);
-		}
+			while (b == true) {
+				std::cout << "Введите команду ('+', '-', '=' или 'x'): ";
+				std::cin >> str;
+
+				b = counter.operations_counter(str);
+			}
+	    }
 		else {
-			std::cout << "Введено неверное значение!" << std::endl;
+		    std::cout << "Введено неверное значение!" << std::endl;
+
 		}
 	return 0;
 }
